@@ -25,7 +25,24 @@ router.post('/', (req,res,next)=>{
   });
 
   page.save()
-  .then(res.redirect('/'));
+  .then(function(savePage){
+    res.redirect(savePage.route);
+  }).catch(next);
+
+
+});
+
+router.get("/:urlTitle", (req,res,next)=>{
+
+  Page.findOne({
+     where: {
+      urlTitle: req.params.urlTitle
+     }
+  })
+  .then(function(foundPage){
+    res.render('wikipage', {page: foundPage});
+  })
+  .catch(next);
 
 });
 
