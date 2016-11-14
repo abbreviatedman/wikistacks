@@ -32,21 +32,32 @@ const Pages = db.define('page', {
   getterMethods: {
     route: function(){
       return "/wiki/" + this.getDataValue("urlTitle");
-    },
+    }
+  },
   hooks: {
-      beforeValidate: function generateUrlTitle (title) {
-        if (title) {
+      beforeValidate: function (page, options) {
+        if (page.title) {
     // Removes all non-alphanumeric characters from title
     // And make whitespace underscore
-          this.urlTitle = title.replace(/\s+/g, '_').replace(/\W/g, '');
+          page.urlTitle = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
         }else {
     // Generates random 5 letter string
-          this.urlTitle = Math.random().toString(36).substring(2, 7);
+          page.urlTitle = Math.random().toString(36).substring(2, 7);
         }
       }
     }
-  }
 });
+
+// Pages.hook("beforeValidate", function(page, options){
+//   if (title) {
+//     // Removes all non-alphanumeric characters from title
+//     // And make whitespace underscore
+//           this.urlTitle = title.replace(/\s+/g, '_').replace(/\W/g, '');
+//         }else {
+//     // Generates random 5 letter string
+//           this.urlTitle = Math.random().toString(36).substring(2, 7);
+//         }
+// });
 
 const Users = db.define('user', {
    name: {
