@@ -1,3 +1,7 @@
+'use strict';
+//jshint esversion: 6
+//jshint node: true
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const chalk = require('chalk');
@@ -20,7 +24,7 @@ app.use(bodyParser.json());
 
 models.Users.sync({})
 .then(function () {
-    return models.Pages.sync({force:true})
+    return models.Pages.sync({force:true});
 })
 .then(function () {
     app.listen(port, function () {
@@ -31,7 +35,8 @@ models.Users.sync({})
 
 app.get('/', function(req,res,next){
   res.redirect("/wiki");
-})
+});
+
 app.use("/wiki", wikiRouter);
 
 
