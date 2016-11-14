@@ -9,6 +9,8 @@ const app = express();
 const wikiRouter = require('./routes/wiki.js');
 const nunjucks = require('nunjucks');
 const models = require('./models');
+const Page = models.Pages;
+const User = models.Users;
 const port = 3000;
 
 // point nunjucks to the directory containing templates and turn off caching; configure returns an Environment
@@ -34,7 +36,11 @@ models.Users.sync({})
 .catch(console.error);
 
 app.get('/', function(req,res,next){
-  res.redirect("/wiki");
+ Page.findAll({})
+  .then(function(pageList){
+    res.render('index', {pages: pageList});
+  })
+  .catch(next);
 });
 
 app.use("/wiki", wikiRouter);

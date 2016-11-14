@@ -24,6 +24,7 @@ router.post('/', (req,res,next)=>{
     content: req.body.content
   });
 
+
   page.save()
   .then(function(savePage){
     res.redirect(savePage.route);
